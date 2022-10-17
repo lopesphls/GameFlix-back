@@ -1,6 +1,6 @@
 export interface GameEntities {
 	id?: string
-	title: string
+	name: string
 	coverImageUrl: string
 	description: string
 	year: number

@@ -1,45 +1,46 @@
 import { PrismaClient } from '@prisma/client'
-import { CreateGameDto } from './createGameDto/createGame.dto'
-import { GameEntities } from './entities/game-entities'
+import { GameEntities } from './entities/game.entities'
+import { GameDto } from './gameDto/game.dto'
 
 export default class GameService {
 	private prisma = new PrismaClient()
 
-	async getAll() {
-		return await this.prisma.game.findMany()
+	public async getAll() {
+		return await this.prisma.games.findMany()
 	}
 
-	async getById(id: string) {
-		return await this.prisma.game.findMany({
+	public async getById(id: string) {
+		return await this.prisma.games.findMany({
 			where: {
 				id,
 			},
 		})
 	}
 
-	async create(createGame: CreateGameDto) {
+	public async create(createGame: GameDto) {
 		const game: GameEntities = createGame
-
-		return await this.prisma.game.create({
+		return await this.prisma.games.create({
 			data: game,
 		})
 	}
 
-	async update(id: string, game: CreateGameDto) {
+	public async update(id: string, game: GameDto) {
 		const {
-			title,
+			name,
 			coverImageUrl,
 			description,
+			favorite,
 			year,
 			gameplayYouTubeUrl,
 			trailerYouTubeUrl,
 		} = game
-		return await this.prisma.game.update({
+		return await this.prisma.games.update({
 			data: {
-				title,
+				name,
 				coverImageUrl,
 				description,
 				year,
+				favorite,
 				gameplayYouTubeUrl,
 				trailerYouTubeUrl,
 			},
@@ -49,8 +50,8 @@ export default class GameService {
 		})
 	}
 
-	async delete(id: string) {
-		return await this.prisma.game.delete({
+	public async delete(id: string) {
+		return await this.prisma.games.delete({
 			where: {
 				id,
 			},

@@ -10,18 +10,75 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Game {
-  id                 String  @id @unique @default(uuid())
-  title              String
+model Games {
+  id                 String            @id @unique @default(uuid())
+  name               String
   coverImageUrl      String
   description        String
   year               Int
+  favorite           Boolean
   imdbScore          Float?
   trailerYouTubeUrl  String?
   gameplayYouTubeUrl String?
+  GendersOnGames     GendersOnGames[]
+  GamesOnProfiles    GamesOnProfiles[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("games")
+}
+
+model GendersOnGames {
+  games   Games   @relation(fields: [gamesId], references: [id])
+  genders Genders @relation(fields: [gendersId], references: [id])
+
+  gamesId   String
+  gendersId String
+
+  @@id([gamesId, gendersId])
+}
+
+model Genders {
+  id             String           @unique @default(uuid())
+  name           String
+  GendersOnGames GendersOnGames[]
+
+  @@map("genders")
+}
+
+model Users {
+  id       String     @id @unique @default(uuid())
+  name     String     @unique
+  email    String     @unique
+  password String     @unique
+  CPF      String     @unique
+  isAdmin  Boolean
+  profiles Profiles[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Profiles {
+  id              String            @id @default(uuid())
+  nickname        String
+  image           String
+  user            Users             @relation(fields: [usersId], references: [id])
+  usersId         String
+  GamesOnProfiles GamesOnProfiles[]
+
+  @@map("profiles")
+}
+
+model GamesOnProfiles {
+  profiles Profiles @relation(fields: [profilesId], references: [id])
+  games    Games    @relation(fields: [gamesId], references: [id])
+
+  profilesId String
+  gamesId    String
+
+  @@id([profilesId, gamesId])
 }

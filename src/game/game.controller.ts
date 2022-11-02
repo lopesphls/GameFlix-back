@@ -1,26 +1,38 @@
-import { CreateGameDto } from './createGameDto/createGame.dto'
+import { Request, Response } from 'express'
+import { GameEntities } from './entities/game.entities'
 import GameService from './game.service'
 
 export default class GameController {
 	private gameService = new GameService()
 
-	public async getAll() {
-		return await this.gameService.getAll()
+	public async getAll(req: Request, res: Response) {
+		const allGames = await this.gameService.getAll()
+		return res.json(allGames)
 	}
 
-	public async getById(id: string) {
-		return await this.gameService.getById(id)
+	public async getById(req: Request, res: Response) {
+		const { id } = req.params
+		const findGame = await this.gameService.getById(id)
+		return res.json(findGame)
 	}
 
-	public async create(createGame: CreateGameDto) {
-		return await this.gameService.create(createGame)
+	public async create(req: Request, res: Response) {
+		const Game: GameEntities = req.body
+		await this.gameService.create(Game)
+		return res.redirect('ok')
 	}
 
-	public async update(id: string, game: CreateGameDto) {
-		return await this.gameService.update(id, game)
+	public async update(req: Request, res: Response) {
+		const { id } = req.params
+		const game: GameEntities = req.body
+		await this.gameService.update(id, game)
+		const editado = await this.gameService.getById(id)
+		return res.json(editado)
 	}
 
-	public async delete(id: string) {
-		return await this.gameService.delete(id)
+	public async delete(req: Request, res: Response) {
+		const { id } = req.params
+		await this.gameService.delete(id)
+		return res.redirect('/games')
 	}
 }

@@ -12,10 +12,13 @@ export default class UsersController {
 
 	public async create(req: Request, res: Response) {
 		try {
-			const createUser: UsersDto = req.body
-			await this.usersService.create(createUser)
-			return res.json('ok').status(201)
-		} catch {}
+			const createUserDto: UsersDto = req.body
+			const user = await this.usersService.create(createUserDto)
+			return res.json(user)
+		} catch (error) {
+			console.log(error)
+			return res.json(error)
+		}
 	}
 
 	public async delete(req: Request, res: Response) {

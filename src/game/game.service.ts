@@ -19,7 +19,6 @@ export default class GameService {
 
 	public async create(createGame: GameDto) {
 		const game: GameEntities = createGame
-
 		return await this.prisma.games.create({
 			data: game,
 		})
@@ -30,6 +29,7 @@ export default class GameService {
 			name,
 			coverImageUrl,
 			description,
+			favorite,
 			year,
 			gameplayYouTubeUrl,
 			trailerYouTubeUrl,
@@ -40,6 +40,7 @@ export default class GameService {
 				coverImageUrl,
 				description,
 				year,
+				favorite,
 				gameplayYouTubeUrl,
 				trailerYouTubeUrl,
 			},

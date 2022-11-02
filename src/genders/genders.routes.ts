@@ -7,3 +7,5 @@ const gendersController = new GendersController()
 gendersRoute.get('/', (req, res) => {
 	gendersController.getAll(req, res)
 })
+
+export default gendersRoute

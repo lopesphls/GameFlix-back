@@ -2,6 +2,7 @@ import cors from 'cors'
 import 'dotenv/config'
 import express, { json, urlencoded } from 'express'
 import gameRoute from './game/game.routes'
+import gendersRoute from './genders/genders.routes'
 import profilesRoute from './profiles/profiles.routes'
 import usersRoute from './users/users.routes'
 
@@ -16,6 +17,7 @@ async function Server() {
 	app.use('/games', gameRoute)
 	app.use('/users', usersRoute)
 	app.use('/profiles', profilesRoute)
+	app.use('/genders', gendersRoute)
 
 	app.listen(3000, () =>
 		console.log('Servidor rocando no http://localhost:3000'),

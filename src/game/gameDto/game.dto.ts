@@ -3,6 +3,7 @@ export interface GameDto {
 	coverImageUrl: string
 	description: string
 	year: number
+	favorite: boolean
 	imdbScore?: number
 	trailerYouTubeUrl?: string
 	gameplayYouTubeUrl?: string

@@ -11,15 +11,17 @@ datasource db {
 }
 
 model Games {
-  id                 String           @id @unique @default(uuid())
+  id                 String            @id @unique @default(uuid())
   name               String
   coverImageUrl      String
   description        String
   year               Int
+  favorite           Boolean
   imdbScore          Float?
   trailerYouTubeUrl  String?
   gameplayYouTubeUrl String?
   GendersOnGames     GendersOnGames[]
+  GamesOnProfiles    GamesOnProfiles[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -61,11 +63,22 @@ model Users {
 }
 
 model Profiles {
-  id       String @id @default(uuid())
-  nickname String
-  image    String
-  user     Users  @relation(fields: [usersId], references: [id])
-  usersId  String
+  id              String            @id @default(uuid())
+  nickname        String
+  image           String
+  user            Users             @relation(fields: [usersId], references: [id])
+  usersId         String
+  GamesOnProfiles GamesOnProfiles[]
 
   @@map("profiles")
+}
+
+model GamesOnProfiles {
+  profiles Profiles @relation(fields: [profilesId], references: [id])
+  games    Games    @relation(fields: [gamesId], references: [id])
+
+  profilesId String
+  gamesId    String
+
+  @@id([profilesId, gamesId])
 }

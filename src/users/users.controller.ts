@@ -16,7 +16,6 @@ export default class UsersController {
 			const user = await this.usersService.create(createUserDto)
 			return res.json(user)
 		} catch (error) {
-			console.log(error)
 			return res.json(error)
 		}
 	}

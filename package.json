@@ -5,7 +5,7 @@
 	"license": "MIT",
 	"scripts": {
 		"dev": "ts-node-dev ./src/index.ts",
-		"build": "tsc && node ./dist/index.js",
+		"start": "tsc && node ./dist/index.js",
 		"cz": "commit"
 	},
 	"dependencies": {
